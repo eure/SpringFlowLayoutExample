@@ -37,14 +37,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.collectionView.backgroundColor = UIColor(red:0.91, green:0.91, blue:0.91, alpha:1)
+        self.collectionView.backgroundColor = ViewController.grayColor
         self.collectionView.dataSource = self
         self.collectionView.collectionViewLayout = self.springFlowLayout
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.springFlowLayout.itemSize = CGSize(width: self.collectionView.bounds.size.width, height: 44)
+        self.springFlowLayout.itemSize = CGSize(width: self.collectionView.bounds.size.width, height: ViewController.cellHeight)
     }
     
     // MARK: UICollectionViewDataSource
@@ -61,9 +61,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath)
-        cell.contentView.backgroundColor = UIColor(red:0.14, green:0.18, blue:0.22, alpha:1)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ViewController.cellIdentifier, forIndexPath: indexPath)
+        cell.contentView.backgroundColor = ViewController.darkBlueColor
         return cell
     }
+    
+    private static let grayColor = UIColor(red: 0.91, green: 0.91, blue: 0.91, alpha: 1)
+    private static let darkBlueColor = UIColor(red: 0.14, green: 0.18, blue: 0.22, alpha: 1)
+    private static let cellIdentifier = "Cell"
+    private static let cellHeight: CGFloat = 44
     
 }

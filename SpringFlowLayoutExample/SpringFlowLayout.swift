@@ -25,8 +25,8 @@ import UIKit
 
 class SpringFlowLayout: UICollectionViewFlowLayout {
     
-    var scrollResistanceFactor: CGFloat = 1000
-    var boundaryScrollResistanceFactor: CGFloat = 10
+    var scrollResistanceDivisor: CGFloat = 1000
+    var boundaryScrollResistanceDivisor: CGFloat = 10
     var springDamping: CGFloat = 1
     
     private var animator: UIDynamicAnimator!
@@ -69,7 +69,7 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             if contentOffset < 0 {
                 
                 let distanceFromEdge = fabs(contentOffset)
-                let offset = distanceFromEdge / self.boundaryScrollResistanceFactor
+                let offset = distanceFromEdge / self.boundaryScrollResistanceDivisor
                 
                 for behavior in self.animator.behaviors {
                     
@@ -87,7 +87,7 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             } else if contentOffset + collectionViewSize > contentSize {
                 
                 let distanceFromEdge = fabs(contentOffset + collectionViewSize - contentSize)
-                let offset = distanceFromEdge / self.boundaryScrollResistanceFactor
+                let offset = distanceFromEdge / self.boundaryScrollResistanceDivisor
                 let itemCount = collectionView.numberOfItemsInSection(0)
                 
                 for behavior in self.animator.behaviors {
@@ -179,7 +179,7 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             return
         }
         
-        let scrollDistance: CGFloat = newBounds.origin.y - collectionView.bounds.origin.y
+        let scrollDistance = newBounds.origin.y - collectionView.bounds.origin.y
         
         let touchLocation = collectionView.panGestureRecognizer.locationInView(collectionView)
         
@@ -187,9 +187,9 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             
             if let behavior = behavior as? UIAttachmentBehavior, let item = behavior.items.first {
                 
-                let distanceFromTouch: CGFloat = fabs(touchLocation.y - item.center.y)
-                let scrollResistance: CGFloat = distanceFromTouch / self.scrollResistanceFactor
-                let offset: CGFloat = scrollDistance * scrollResistance
+                let distanceFromTouch = fabs(touchLocation.y - item.center.y)
+                let scrollResistance = distanceFromTouch / self.scrollResistanceDivisor
+                let offset = scrollDistance * scrollResistance
                 
                 item.center.y += offset
                 
