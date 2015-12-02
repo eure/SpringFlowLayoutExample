@@ -27,18 +27,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    private var springFlowLayout: SpringFlowLayout!
+    private let springFlowLayout: SpringFlowLayout = {
+        
+        let flowLayout = SpringFlowLayout()
+        flowLayout.scrollDirection = .Vertical
+        return flowLayout
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.collectionView.backgroundColor = UIColor(red:0.91, green:0.91, blue:0.91, alpha:1)
         self.collectionView.dataSource = self
-        
-        let flowLayout = SpringFlowLayout()
-        flowLayout.scrollDirection = .Vertical
-        self.springFlowLayout = flowLayout
-        self.collectionView.collectionViewLayout = flowLayout
+        self.collectionView.collectionViewLayout = self.springFlowLayout
     }
     
     override func viewDidLayoutSubviews() {
