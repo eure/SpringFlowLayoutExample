@@ -36,12 +36,17 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
     override init() {
         
         super.init()
-        self.animator = UIDynamicAnimator(collectionViewLayout: self)
+        self.configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
+        self.configure()
+    }
+    
+    private func configure() {
+        
         self.animator = UIDynamicAnimator(collectionViewLayout: self)
     }
     
