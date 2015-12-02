@@ -25,8 +25,8 @@ import UIKit
 
 class SpringFlowLayout: UICollectionViewFlowLayout {
     
-    var scrollResistanceDivisor: CGFloat = 1000
-    var boundaryScrollResistanceDivisor: CGFloat = 10
+    var scrollResistanceFactor: CGFloat = 1000
+    var boundaryScrollResistanceFactor: CGFloat = 10
     var springDamping: CGFloat = 1
     
     private var animator: UIDynamicAnimator!
@@ -59,7 +59,6 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             return
         }
         
-        // 初回レイアウトを避けるため
         if self.animator.behaviors.count != 0 {
             
             let contentOffset = collectionView.contentOffset.y
@@ -69,7 +68,7 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             if contentOffset < 0 {
                 
                 let distanceFromEdge = fabs(contentOffset)
-                let offset = distanceFromEdge / self.boundaryScrollResistanceDivisor
+                let offset = distanceFromEdge / self.boundaryScrollResistanceFactor
                 
                 for behavior in self.animator.behaviors {
                     
@@ -87,7 +86,7 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             } else if contentOffset + collectionViewSize > contentSize {
                 
                 let distanceFromEdge = fabs(contentOffset + collectionViewSize - contentSize)
-                let offset = distanceFromEdge / self.boundaryScrollResistanceDivisor
+                let offset = distanceFromEdge / self.boundaryScrollResistanceFactor
                 let itemCount = collectionView.numberOfItemsInSection(0)
                 
                 for behavior in self.animator.behaviors {
@@ -105,7 +104,6 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             }
         }
         
-        // 初回レイアウト、中間をスクロールしているとき
         let visibleRect = CGRectInset(CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size), 0, -100)
         
         guard let visibleItems = super.layoutAttributesForElementsInRect(visibleRect) else {
@@ -188,7 +186,7 @@ class SpringFlowLayout: UICollectionViewFlowLayout {
             if let behavior = behavior as? UIAttachmentBehavior, let item = behavior.items.first {
                 
                 let distanceFromTouch = fabs(touchLocation.y - item.center.y)
-                let scrollResistance = distanceFromTouch / self.scrollResistanceDivisor
+                let scrollResistance = distanceFromTouch / self.scrollResistanceFactor
                 let offset = scrollDistance * scrollResistance
                 
                 item.center.y += offset
